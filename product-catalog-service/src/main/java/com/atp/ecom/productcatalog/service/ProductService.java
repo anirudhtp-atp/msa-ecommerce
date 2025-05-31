@@ -14,12 +14,21 @@ public class ProductService {
 
 	@Autowired
 	ProductRepository productRepository;
+	
+	@Autowired
+	TokenService tokenService;
 
-	public Product createProduct(Product product) {
-		return productRepository.save(product);
+	public Product createProduct(Product product, String token) throws Exception {
+		
+		if(tokenService.validateToken(token)) {
+			return productRepository.save(product);
+		}else {
+			 throw new Exception("UNAUTHORIZED");
+		}
+		
 	}
 
-	public Optional<Product> getProductById(Long id) {
+	public Optional<Product> getProductById(String id) {
 		return productRepository.findById(id);
 	}
 
@@ -27,7 +36,7 @@ public class ProductService {
 		return productRepository.findAll();
 	}
 
-	public Product updateProduct(Long id, Product updatedProduct) {
+	public Product updateProduct(String id, Product updatedProduct) {
 		return productRepository.findById(id).map(product -> {
 			product.setName(updatedProduct.getName());
 			product.setDescription(updatedProduct.getDescription());
@@ -37,7 +46,7 @@ public class ProductService {
 		}).orElseThrow(() -> new RuntimeException("Product not found"));
 	}
 
-	public void deleteProduct(Long id) {
+	public void deleteProduct(String id) {
 		productRepository.deleteById(id);
 	}
 

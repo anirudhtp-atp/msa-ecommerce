@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.atp.ecom</groupId>
-	<artifactId>product-catalog-service</artifactId>
+	<artifactId>customer-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>product-catalog-service</name>
+	<name>customer-service</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -45,7 +45,12 @@
         </dependency>
 		<dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
         </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

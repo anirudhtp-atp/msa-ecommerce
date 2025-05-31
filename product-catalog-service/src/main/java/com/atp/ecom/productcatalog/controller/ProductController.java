@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.atp.ecom.productcatalog.model.Product;
@@ -33,13 +36,23 @@ public class ProductController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-		Product created = productService.createProduct(product);
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<?> createProduct(@RequestBody Product product, @RequestHeader("Authorization") String token) {
+		Product created;
+		try {
+			created = productService.createProduct(product, token);
+		} catch (Exception e) {
+			return switch(e.getMessage()) {
+			case "UNAUTHORIZED" ->  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
+			default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			};
+		}
+		
 		return ResponseEntity.ok(created);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Product> getProduct(@PathVariable Long id) {
+	public ResponseEntity<Product> getProduct(@PathVariable String id) {
 		return productService.getProductById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
 	}
 
@@ -49,7 +62,7 @@ public class ProductController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+	public ResponseEntity<Product> updateProduct(@PathVariable String id, @RequestBody Product product) {
 		try {
 			Product updated = productService.updateProduct(id, product);
 			return ResponseEntity.ok(updated);
@@ -59,7 +72,7 @@ public class ProductController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+	public ResponseEntity<Void> deleteProduct(@PathVariable String id) {
 		productService.deleteProduct(id);
 		return ResponseEntity.noContent().build();
 	}
