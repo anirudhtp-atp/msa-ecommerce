@@ -1,26 +1,18 @@
-package com.atp.ecom.productcatalog.model;
+package com.atp.ecom.productcatalog.dto;
 
 import java.math.BigDecimal;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "products")
-public class Product {
+public class ProductDto {
 
-	@Id
-	private String id;
 	private String name;
 	private String description;
 	private BigDecimal price;
+	private Integer quantity;
 	
 	
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
 	public String getName() {
 		return name;
 	}
@@ -39,10 +31,19 @@ public class Product {
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
+	public Integer getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + "]";
+		return "ProductDto [name=" + name + ", description=" + description + ", price=" + price + ", quantity="
+				+ quantity + "]";
 	}
+	
+	
 	
 	
 }

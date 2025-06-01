@@ -5,6 +5,10 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "orders")
@@ -15,8 +19,8 @@ public class Order {
 
     private String email;
 
-    @ElementCollection
-    private List<Long> productIds;
+    @JdbcTypeCode(SqlTypes.JSON)
+    private Map<String, Integer> products; 
 
     private double totalAmount;
 
@@ -40,12 +44,14 @@ public class Order {
 		this.email = email;
 	}
 
-	public List<Long> getProductIds() {
-		return productIds;
+	
+
+	public Map<String, Integer> getProducts() {
+		return products;
 	}
 
-	public void setProductIds(List<Long> productIds) {
-		this.productIds = productIds;
+	public void setProducts(Map<String, Integer> products) {
+		this.products = products;
 	}
 
 	public double getTotalAmount() {
@@ -74,10 +80,11 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", email=" + email + ", productIds=" + productIds + ", totalAmount=" + totalAmount
+		return "Order [id=" + id + ", email=" + email + ", products=" + products + ", totalAmount=" + totalAmount
 				+ ", status=" + status + ", createdAt=" + createdAt + "]";
 	}
-    
+
+	
     
     
 }

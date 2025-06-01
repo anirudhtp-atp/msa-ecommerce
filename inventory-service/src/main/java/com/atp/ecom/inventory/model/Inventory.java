@@ -13,24 +13,26 @@ public class Inventory {
 
 	}
 
-	public Inventory(Long productId, int stock) {
+	public Inventory(String productId, int stock) {
 		this.productId = productId;
 		this.stock = stock;
 	}
 
 	@Id
-	private Long productId;
+	private String productId;
 
-	private int stock;
-
-	public Long getProductId() {
+	public String getProductId() {
 		return productId;
 	}
 
-	public void setProductId(Long productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 
+	private int stock;
+	
+	
+	
 	public int getStock() {
 		return stock;
 	}
@@ -44,4 +46,5 @@ public class Inventory {
 		return "Inventory [productId=" + productId + ", stock=" + stock + "]";
 	}
 
+	
 }

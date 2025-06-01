@@ -8,17 +8,17 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Service
 public class InventoryClientService {
 
-	@Autowired
-	ApplicationContext context;
+	private final ApplicationContext context;
 
 	private final WebClient webClient;
 
-	InventoryClientService(WebClient.Builder builder) {
+	InventoryClientService(WebClient.Builder builder, ApplicationContext context) {
 		
-		this.webClient = context.getBean("inventoryServiceWebClient", WebClient.class);
+		this.context = context;
+		this.webClient = this.context.getBean("inventoryServiceWebClient", WebClient.class);
 	}
 	
-	public boolean isInStock(Long productId, int quantity) {
+	public boolean isInStock(String productId, int quantity) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/check")

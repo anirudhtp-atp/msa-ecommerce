@@ -20,17 +20,17 @@ public class InventoryController {
 	InventoryService inventoryService;
 
 	@GetMapping("/check")
-	public boolean checkStock(@RequestParam Long productId, @RequestParam int quantity) {
+	public boolean checkStock(@RequestParam String productId, @RequestParam int quantity) {
 		return inventoryService.isInStock(productId, quantity);
 	}
 
 	@PutMapping("/deduct")
-	public void deductStock(@RequestParam Long productId, @RequestParam int quantity) {
+	public void deductStock(@RequestParam String productId, @RequestParam int quantity) {
 		inventoryService.deductStock(productId, quantity);
 	}
 
 	@PutMapping("/restock")
-	public void reStock(@RequestParam Long productId, @RequestParam int quantity) {
+	public void reStock(@RequestParam String productId, @RequestParam int quantity) {
 		inventoryService.reStock(productId, quantity);
 	}
 

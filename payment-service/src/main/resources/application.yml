@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: dev
+    
+  application:
+    name: payment-service
+    
+  config:
+    import: configserver:http://localhost:8888/

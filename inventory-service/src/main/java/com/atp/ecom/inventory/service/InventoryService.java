@@ -17,13 +17,13 @@ public class InventoryService {
 	@Autowired
 	InventoryRepository inventoryRepository;
 
-	public boolean isInStock(Long productId, int quantity) {
+	public boolean isInStock(String productId, int quantity) {
 		Optional<Inventory> inventory = inventoryRepository.findById(productId);
 
 		return inventory.map(inv -> inv.getStock() >= quantity).orElse(false);
 	}
 
-	public void deductStock(Long productId, int quantity) {
+	public void deductStock(String productId, int quantity) {
 		Inventory inventory = inventoryRepository.findById(productId)
 				.orElseThrow(() -> new IllegalArgumentException("Product not found in inventory"));
 		
@@ -36,7 +36,7 @@ public class InventoryService {
 		
 	}
 	
-	public void reStock(Long productId, int quantity) {
+	public void reStock(String productId, int quantity) {
 		Inventory inventory = inventoryRepository.findById(productId)
 				.orElse( new Inventory(productId, 0));
 		

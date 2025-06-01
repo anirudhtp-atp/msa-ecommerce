@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.atp.ecom.productcatalog.dto.ProductDto;
 import com.atp.ecom.productcatalog.model.Product;
 import com.atp.ecom.productcatalog.service.ProductService;
 
@@ -37,10 +38,10 @@ public class ProductController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<?> createProduct(@RequestBody Product product, @RequestHeader("Authorization") String token) {
+	public ResponseEntity<?> createProduct(@RequestBody ProductDto productDto, @RequestHeader("Authorization") String token) {
 		Product created;
 		try {
-			created = productService.createProduct(product, token);
+			created = productService.createProduct(productDto, token);
 		} catch (Exception e) {
 			return switch(e.getMessage()) {
 			case "UNAUTHORIZED" ->  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
