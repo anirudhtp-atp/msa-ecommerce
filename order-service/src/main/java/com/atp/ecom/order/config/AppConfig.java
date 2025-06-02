@@ -18,6 +18,19 @@ public class AppConfig {
 	
 	@Bean
 	@Scope("prototype")
+	WebClient authValidateWebClient(WebClient.Builder webClientBuilder) {
+		
+		List<ServiceInstance> instances = discoveryClient.getInstances("auth-service");
+		
+		String baseUrl = instances.get(0).getUri().toString();
+		
+		return webClientBuilder.baseUrl(String.format("%s/api/v1/validate", baseUrl)).build();
+		
+		
+	}
+	
+	@Bean
+	@Scope("prototype")
 	WebClient inventoryServiceWebClient(WebClient.Builder webClientBuilder) {
 		
 		List<ServiceInstance> instances = discoveryClient.getInstances("inventory-service");
@@ -25,6 +38,19 @@ public class AppConfig {
 		String baseUrl = instances.get(0).getUri().toString();
 		
 		return webClientBuilder.baseUrl(String.format("%s/api/v1/inventory", baseUrl)).build();
+		
+		
+	}
+	
+	@Bean
+	@Scope("prototype")
+	WebClient paymentServiceWebClient(WebClient.Builder webClientBuilder) {
+		
+		List<ServiceInstance> instances = discoveryClient.getInstances("payment-service");
+		
+		String baseUrl = instances.get(0).getUri().toString();
+		
+		return webClientBuilder.baseUrl(String.format("%s/api/v1/payments", baseUrl)).build();
 		
 		
 	}
